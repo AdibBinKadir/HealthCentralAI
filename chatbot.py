@@ -88,10 +88,10 @@ def chatbot_response_smart(user_input, confidence_threshold=0.7):
 
 # --- Chatbot Interaction Loop ---
 print("Chatbot is running in smart mode!")
-while True:
-    message = input("> ")
-    if message.lower() == "quit":
-        break
+# while True:
+#     message = input("> ")
+#     if message.lower() == "quit":
+#         break
 
-    response = chatbot_response_smart(message)
-    print(response)
+#     response = chatbot_response_smart(message)
+#     print(response)
