@@ -10,6 +10,7 @@ from tensorflow import keras
 # from tensorflow.keras.optimizers import SGD
 
 # Download required modules
+nltk.download('punkt_tab')
 nltk.download('punkt')
 nltk.download('wordnet')
 nltk.download('omw-1.4')

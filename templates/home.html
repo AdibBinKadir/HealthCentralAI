@@ -1,113 +1,208 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat with AI</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f9;
-        }
-        .chat-container {
-            max-width: 600px;
-            margin: 50px auto;
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .messages {
-            height: 300px;
-            overflow-y: auto;
-            border: 1px solid #ddd;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 4px;
-            background: #f9f9f9;
-        }
-        .message {
-            margin-bottom: 10px;
-        }
-        .message.user {
-            text-align: right;
-            color: #007bff;
-        }
-        .message.ai {
-            text-align: left;
-            color: #333;
-        }
-        .input-container {
-            display: flex;
-        }
-        .input-container input {
-            flex: 1;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        .input-container button {
-            padding: 10px 20px;
-            border: none;
-            background: #007bff;
-            color: #fff;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .input-container button:hover {
-            background: #0056b3;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <title>Health Central AI</title>
+  <style>
+    /* RESET & BASE */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+    body {
+      background: 
+        linear-gradient(to right, #f0f0f0 1px, transparent 1px),
+        linear-gradient(to bottom, #f0f0f0 1px, transparent 1px);
+      background-size: 4rem 4rem;
+      color: #333;
+    }
+
+    /* HERO SECTION (heading + tagline) */
+    .hero {
+      text-align: center;
+      margin-top: 20px; /* moved content up */
+      margin-bottom: 40px;
+    }
+    .hero h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+    .hero p {
+      font-size: 1.1rem;
+      color: #666;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* CHAT BOX */
+    .chat-container {
+      margin: 30px auto;
+      max-width: 600px;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: 520px; /* fixed height for scroll area */
+    }
+    .chat-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1rem;
+      border-bottom: 1px solid #eee;
+      background: #fafafa;
+    }
+    .chat-header svg {
+      width: 20px;
+      height: 20px;
+      fill: none;
+      stroke: #000;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .chat-header h3 {
+      font-weight: 600;
+      font-size: 1rem;
+      margin: 0;
+    }
+    .chat-messages {
+      flex: 1;
+      padding: 1rem;
+      overflow-y: auto;
+    }
+    .bubble {
+      display: inline-block;
+      padding: 0.75rem 1rem;
+      margin-bottom: 1rem;
+      border-radius: 6px;
+      max-width: 80%;
+      line-height: 1.4;
+      clear: both;
+    }
+    .bubble.ai {
+      background: #f5f5f5;
+      color: #333;
+      text-align: left;
+    }
+    .bubble.user {
+      background: #ececec;
+      color: #333;
+      text-align: right;
+      float: right;
+    }
+    /* INPUT AREA */
+    .chat-input {
+      border-top: 1px solid #eee;
+      padding: 0.75rem;
+      display: flex;
+      gap: 0.5rem;
+    }
+    .chat-input input {
+      flex: 1;
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .chat-input button {
+      border: none;
+      background: #000;
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .chat-input button:hover {
+      opacity: 0.8;
+    }
+  </style>
 </head>
 <body>
-    <div class="chat-container">
-        <div class="messages" id="messages">
-            {{response}}
-        </div>
-        <form id="chat-form" class="input-container">
-            <input type="text" id="user-input" placeholder="Type your message..." required>
-            <button type="submit">Send</button>
-        </form>
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <h1>Your Personal Health Assistant</h1>
+    <p>
+      Get instant first aid guidance and mental health support with our
+      AI-powered chatbot. Available 24/7, wherever you are.
+    </p>
+  </section>
+
+  <!-- CHAT BOX -->
+  <div class="chat-container" id="chatContainer">
+    <div class="chat-header">
+      <!-- Heart icon -->
+      <svg viewBox="0 0 24 24">
+        <path d="M20.84 4.61a5 5 0 00-7.07 0L12 6.39l-1.76-1.78a5 5 0 
+                 00-7.07 7.07l1.78 1.76L12 21.23l7.07-7.07 1.76-1.78a5 5 
+                 0 000-7.07z"/>
+      </svg>
+      <h3>HEALTH CENTRAL AI Assistant</h3>
     </div>
+    <!-- Messages area -->
+    <div class="chat-messages" id="chatMessages">
+      {% for message in messages %}
+        <div class="bubble ai">{{ message }}</div>
+      {% endfor %}
+    </div>
+    <!-- Input area -->
+    <div class="chat-input">
+      <input type="text" id="userInput" />
+      <button id="sendBtn">Send</button>
+    </div>
+  </div>
 
-    <script>
-        const form = document.getElementById('chat-form');
-        const messagesDiv = document.getElementById('messages');
-        const userInput = document.getElementById('user-input');
+  <!-- SCRIPT: Send user message via POST to Flask backend -->
+  <script>
+    const sendBtn = document.getElementById('sendBtn');
+    const chatMessages = document.getElementById('chatMessages');
+    const userInput = document.getElementById('userInput');
 
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const userMessage = userInput.value;
+    sendBtn.addEventListener('click', () => {
+      const messageText = userInput.value.trim();
+      if (messageText !== "") {
+        // Create a new user bubble
+        const userBubble = document.createElement('div');
+        userBubble.classList.add('bubble', 'user');
+        userBubble.textContent = messageText;
+        chatMessages.appendChild(userBubble);
 
-            // Display user message
-            const userMessageDiv = document.createElement('div');
-            userMessageDiv.className = 'message user';
-            userMessageDiv.textContent = userMessage;
-            messagesDiv.appendChild(userMessageDiv);
+        // Clear the input and scroll to bottom
+        userInput.value = "";
+        chatMessages.scrollTop = chatMessages.scrollHeight;
 
-            // Clear input
-            userInput.value = '';
+        // Use POST to send the message to the Flask backend
+        fetch('/chat', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ message: messageText })
+        })
+        .then(response => response.json())
+        .then(data => {
+          // Create a new AI bubble with the response using data.response
+          const aiBubble = document.createElement('div');
+          aiBubble.classList.add('bubble', 'ai');
+          aiBubble.textContent = data.response;
+          chatMessages.appendChild(aiBubble);
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+        })
+        .catch(error => console.error('Error:', error));
+      }
+    });
 
-            // Send message to the server
-            const response = await fetch('/chat', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: userMessage })
-            });
-
-            const data = await response.json();
-
-            // Display AI response
-            const aiMessageDiv = document.createElement('div');
-            aiMessageDiv.className = 'message ai';
-            aiMessageDiv.textContent = data.response;
-            messagesDiv.appendChild(aiMessageDiv);
-
-            // Scroll to the bottom
-            messagesDiv.scrollTop = messagesDiv.scrollHeight;
-        });
-    </script>
+    // Allow 'Enter' key to send message
+    userInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        sendBtn.click();
+      }
+    });
+  </script>
 </body>
 </html>
