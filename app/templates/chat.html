@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with AI</title>
+
+    <!-- <link rel="stylesheet" href="styles.css">
+     -->
+     <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #121212;
+            color: #e0e0e0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .chat-container {
+            max-width: 600px;
+            width: 95%;
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            color: #64dd17;
+            background: #222b22;
+            padding: 16px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(100, 221, 23, 0.08);
+        }
+
+        .messages {
+            flex-grow: 1;
+            overflow-y: auto;
+            border: 1px solid #333;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            background: #282828;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message {
+            margin-bottom: 10px;
+            padding: 10px 15px;
+            border-radius: 20px;
+            max-width: 70%;
+        }
+
+        .message.user {
+            align-self: flex-end;
+            background-color: #263238;
+            color: #80cbc4;
+            border: 1px solid #455a64;
+        }
+
+        .message.ai {
+            align-self: flex-start;
+            background-color: #86b081;
+            color: #1a4b4b;
+            border: 1px solid #546e7a;
+        }
+
+        .input-container {
+            display: flex;
+            align-items: center;
+            padding-top: 10px;
+            border-top: 1px solid #333;
+        }
+
+        .input-container input {
+            flex-grow: 1;
+            padding: 12px;
+            border: 1px solid #333;
+            border-radius: 25px;
+            margin-right: 10px;
+            font-size: 16px;
+            background-color: #282828;
+            color: #e0e0e0;
+        }
+
+        .input-container button {
+            padding: 12px 25px;
+            border: none;
+            background: #64dd17;
+            color: #000;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .input-container button:hover {
+            background: #55b315;
+        }
+
+        ::-webkit-scrollbar {
+            background-color: #282828;
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: #424242;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: #546e7a;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="header">HealthCentralAI</div>
+        <div class="messages" id="messages">
+            {{response}}
+        </div>
+        <form id="chat-form" class="input-container">
+            <input type="text" id="user-input" placeholder="Type your message..." required>
+            <button type="submit">Send</button>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('chat-form');
+        const messagesDiv = document.getElementById('messages');
+        const userInput = document.getElementById('user-input');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const userMessage = userInput.value;
+
+            // Display user message
+            const userMessageDiv = document.createElement('div');
+            userMessageDiv.className = 'message user';
+            userMessageDiv.textContent = userMessage;
+            messagesDiv.appendChild(userMessageDiv);
+
+            // Clear input
+            userInput.value = '';
+
+            // Send message to the server
+            const response = await fetch('/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: userMessage })
+            });
+
+            const data = await response.json();
+
+            // Display AI response
+            const aiMessageDiv = document.createElement('div');
+            aiMessageDiv.className = 'message ai';
+            aiMessageDiv.textContent = data.response;
+            messagesDiv.appendChild(aiMessageDiv);
+
+            // Scroll to the bottom
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        });
+    </script>
+</body>
+</html>

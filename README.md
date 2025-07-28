@@ -87,4 +87,89 @@ We implemented a **two-tiered response system**:
 ```bash
 git clone https://github.com/your-username/health-central-ai.git
 cd health-central-ai
+```
+### 2. Create and Activate a Virtual Environment
+
+It's highly recommended to use a virtual environment to manage project dependencies.
+
+- **On macOS/Linux:**
+  ```bash
+  python3 -m venv venv
+  source venv/bin/activate
+  ```
+
+- **On Windows**
+  ```bash
+  python -m venv venv
+  .\venv\Scripts\activate
+  ```
+
+### 3. Install Dependencies
+
+Install all the required Python packages from the `requirements.txt` file.
+
+  ```bash
+  pip install -r requirements.txt
+  ```
+
+### 4. Set up Environment Variables
+
+You will need a Google Gemini API key for the chatbot's fallback mechanism to work.
+
+ 1. Create a new file named keys.env in the root of the project directory.
+ 2. Add your API key to this file as follows:
+
+  ```keys.env
+  API_KEY="your_google_gemini_api_key_here"
+  ```
+
+  🔐 Note: The keys.env file is listed in .gitignore to ensure your secret keys are not accidentally committed to the repository.
+
+---
+
+## ▶️ Usage
+
+There are two main ways to interact with this project: running the web application or retraining the model.
+
+### Running the Web Application
+
+To start the Flask server and interact with the chatbot in your browser:
+
+ 1. Make sure your virtual environment is activated.
+ 2. Run the run.py script:
+
+  ```bash
+  python run.py
+  ```
+
+  3. Open your web browser and navigate to: http://127.0.0.1:5000
+
+
+
+
+### 🧠 Retraining the Model
+
+ If you modify the `data/data.json` file with new intents or responses, you will need to retrain the model.
+
+  1. Make sure your virtual environment is activated.
+  2. Run the training.py script:
+
+   ```bash
+   python training.py
+   ```
+
+  This will automatically process the new data and overwrite the old model files in the models/ directory with the updated versions.
+
+---
+
+## 🤝 Contributors
+
+This project was a collaborative effort. Big thanks to the entire team:
+
+- **[Adib Bin Kadir](https://github.com/AdibBinKadir)** - Project Lead | Full-Stack Architecture, AI/ML & Deployment
+- **[Athoiba Thongum](https://github.com/athoi-ba)** - Frontend Development & UI/UX Design
+- **[Avirup Bhattacharjee](https://github.com/Avirup-Bhattacharjee)** - Data Collection & UI/UX Design
+
+
+
 
