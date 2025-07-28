@@ -1,16 +1,5 @@
-# Git repository files
 .git/
-.gitignore
-.gitattributes
-
-# Documentation
-README.md
-
-# Training data and scripts not needed for running the app
+venv/
 data/
 training.py
-
-# Local environment files
-venv/
-__pycache__/
-*.pyc
+README.md
