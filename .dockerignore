@@ -1,0 +1,32 @@
+# Training and conversion scripts (not needed for deployment)
+training.py
+convert_to_tflite.py
+
+# Python cache
+__pycache__/
+
+# Virtual environments
+venv/
+
+# Environment files
+.env
+.env.local
+
+# Git files
+.git
+.gitignore
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
